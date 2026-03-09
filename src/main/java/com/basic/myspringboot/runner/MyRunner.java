@@ -1,5 +1,6 @@
 package com.basic.myspringboot.runner;
 
+import com.basic.myspringboot.config.CustomerVO;
 import com.basic.myspringboot.property.MyBootProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,6 @@ import java.util.function.Consumer;
 
 @Component
 public class MyRunner implements ApplicationRunner {
-
     @Value("${myboot.name}")
     private String name;
 
@@ -25,20 +25,24 @@ public class MyRunner implements ApplicationRunner {
     @Autowired
     private MyBootProperties properties;
 
+    @Autowired
+    private CustomerVO customerVO;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        System.out.println("현재 활성화된 CustomerVO = " + customerVO);
+
         System.out.println("MyBootProperties getName() = " + properties.getName());
 
-        System.out.println("${myboot.name} = " + name);
+        System.out.println("${myboot.name}  = " + name);
         System.out.println("${myboot.age}  = " + age);
 
         System.out.println("${myboot.fullName}  = " + environment.getProperty("myboot.fullName"));
 
-
         System.out.println("VM 아규먼트 foo : " + args.containsOption("foo"));
         System.out.println("Program 아규먼트 bar : " + args.containsOption("bar"));
 
-         /*
+        /*
             default void forEach(Consumer<? super T> action)
             Consumer 인터페이스의 void accept(T t)
          */
