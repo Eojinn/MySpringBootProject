@@ -35,17 +35,18 @@ public class MyRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        System.out.println("현재 활성화된 CustomerVO = " + customerVO);
+        System.out.println("Logger 구현체 클래스명 = " + logger.getClass().getName());
+        logger.info("현재 활성화된 CustomerVO = {}", customerVO);
+        logger.info("MyBootProperties getName() = {}", properties.getName());
+        logger.info("MyBootProperties getFullName() = {}", properties.getFullName());
 
-        System.out.println("MyBootProperties getName() = " + properties.getName());
+        logger.info("${myboot.name}  = {}", name);
+        logger.info("${myboot.age}  = {}", age);
 
-        System.out.println("${myboot.name}  = " + name);
-        System.out.println("${myboot.age}  = " + age);
-
-        System.out.println("${myboot.fullName}  = " + environment.getProperty("myboot.fullName"));
-
-        System.out.println("VM 아규먼트 foo : " + args.containsOption("foo"));
-        System.out.println("Program 아규먼트 bar : " + args.containsOption("bar"));
+        logger.debug("DEBUG 레벨");
+        logger.debug(">>> ${myboot.fullName}  = {}", environment.getProperty("myboot.fullName"));
+        logger.debug("VM 아규먼트 foo : {}", args.containsOption("foo"));
+        logger.debug("Program 아규먼트 bar : {}", args.containsOption("bar"));
 
         /*
             default void forEach(Consumer<? super T> action)
