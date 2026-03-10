@@ -9,5 +9,4 @@ class CustomerRepositoryTest {
     @Autowired
     CustomerRepository customerRepository;
 
-
 }
