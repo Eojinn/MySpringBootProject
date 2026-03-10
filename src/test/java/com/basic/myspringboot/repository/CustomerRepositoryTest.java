@@ -46,6 +46,9 @@ class CustomerRepositoryTest {
         }else{
             System.out.println("Customer Not Found");
         }
+        //ifPresent(Consumer)
+        //Consumer의 추상메서드는 void accept(T t)
+        optionalCustomer.ifPresent(customer -> System.out.println(customer.getCustomerName()));
     }
 
 }
