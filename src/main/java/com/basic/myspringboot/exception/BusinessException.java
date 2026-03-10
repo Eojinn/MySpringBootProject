@@ -1,10 +1,7 @@
 package com.basic.myspringboot.exception;
 
-import com.basic.myspringboot.entity.User;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Getter
 public class BusinessException extends RuntimeException {
@@ -21,6 +18,4 @@ public class BusinessException extends RuntimeException {
         this.message = message;
         this.httpStatus = httpStatus;
     }
-
-
 }
