@@ -8,5 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class CustomerRepositoryTest {
     @Autowired
     CustomerRepository customerRepository;
-
+    
+    //1. Customer 등록
 }

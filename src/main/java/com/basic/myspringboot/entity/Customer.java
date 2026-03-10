@@ -9,7 +9,12 @@ import lombok.Setter;
 @Getter @Setter
 public class Customer {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long id;
+    private Long id;
 
+    @Column(unique = true, nullable = false)
+    private String customerId;
+
+    @Column(nullable = false)
+    private String customerName;
 
 }
