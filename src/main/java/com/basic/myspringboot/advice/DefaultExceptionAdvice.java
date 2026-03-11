@@ -58,6 +58,7 @@ public class DefaultExceptionAdvice {
 
         log.error(e.getMessage(), e);
 
+        //ResponseEntity = body + statusCode + header
         return new ResponseEntity<ErrorObject>(errorObject, HttpStatusCode.valueOf(500));
     }
 }
