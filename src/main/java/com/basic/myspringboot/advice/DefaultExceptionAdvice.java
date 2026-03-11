@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-@Slf4j
+@Slf4j //로그 생성
 public class DefaultExceptionAdvice {
 
     @ExceptionHandler(BusinessException.class)
