@@ -62,7 +62,7 @@ public class UserRestController {
         User user = getExistUser(optionalUser);
         userRepository.delete(user);
         //return ResponseEntity.ok(user);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Id = " + id + "User가 삭제 되었습니다.");
     }
     //private 공통 메서드
     private static User getExistUser(Optional<User> optionalUser) {
