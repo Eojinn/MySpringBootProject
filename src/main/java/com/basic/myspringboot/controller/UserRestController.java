@@ -47,12 +47,6 @@ public class UserRestController {
         return existUser;
     }
 
-    private static User getExistUser(Optional<User> optionalUser) {
-        User existUser = optionalUser //Optional<User>
-                .orElseThrow(() -> new BusinessException("User Not Found", HttpStatus.NOT_FOUND));//User
-        return existUser;
-    }
-
     //Email 조회하고 User 수정하기
     @PatchMapping("/{email}/")
     public User updateUser(@PathVariable String email, @RequestBody User userDetail){
@@ -70,4 +64,11 @@ public class UserRestController {
         //return ResponseEntity.ok(user);
         return ResponseEntity.ok().build();
     }
+    //private 공통 메서드
+    private static User getExistUser(Optional<User> optionalUser) {
+        User existUser = optionalUser //Optional<User>
+                .orElseThrow(() -> new BusinessException("User Not Found", HttpStatus.NOT_FOUND));//User
+        return existUser;
+    }
+
 }
