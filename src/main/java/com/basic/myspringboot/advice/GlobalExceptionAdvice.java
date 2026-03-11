@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 @Slf4j
 public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
     //  401 - 인증 실패 (Spring Security)
