@@ -1,11 +1,13 @@
 package com.basic.myspringboot.controller;
 
 import com.basic.myspringboot.entity.User;
+import com.basic.myspringboot.exception.BusinessException;
 import com.basic.myspringboot.repository.CustomerRepository;
 import com.basic.myspringboot.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,4 +37,11 @@ public class UserRestController {
         return userRepository.findAll();
     }
 
+    //Id로 User 조회
+    @GetMapping("/{id}")
+    public User getUserById(@PathVariable Long id) {
+        User existUser = userRepository.findById(id)//Optional<User>
+                .orElseThrow(()->new BusinessException("User Not Found", HttpStatus.NOT_FOUND));//User
+        return existUser;
+    }
 }
