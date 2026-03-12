@@ -39,9 +39,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/users/welcome").permitAll()
-                            .requestMatchers("/users/**").authenticated();
+                    // /api/users/welcome 경로는 인증없이 접근 가능
+                    auth.requestMatchers("/api/users/welcome").permitAll()
+                            // /api/users/** 인증 후에 접근 가능
+                            .requestMatchers("/api/users/**").authenticated();
                 })
+                //spring이 제공하는 login form을 사용
                 .formLogin(withDefaults())
                 .build();
     }
