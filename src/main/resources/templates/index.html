@@ -14,7 +14,7 @@
         <td th:text="${user.name}"></td>
         <td th:text="${user.email}"></td>
         <td th:text="${#temporals.format(user.createdAt,'yyyy-MM-dd hh:mm E a')}"></td>
-        <td><a th:href="@{/edit/{id}(id=${user.id})}">update</a></td>
+        <td><a th:href="@{/edit/{id}(id=${user.id})}">Update</a></td>
     </tr>
 </table>
 <p>
