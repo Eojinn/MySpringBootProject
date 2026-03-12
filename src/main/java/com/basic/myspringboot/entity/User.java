@@ -19,7 +19,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Name은 필수 입력항목입니다.")
+    @NotBlank(message = "Name은 필수 입력항목입니다.")
     @Column(nullable = false)
     private String name;
 
