@@ -31,7 +31,7 @@ public class MyRunner implements ApplicationRunner {
     private CustomerVO customerVO;
 
     //Logger 객체생성
-    private Logger logger = LoggerFactory.getLogger(MyRunner.class);
+    private final Logger logger = LoggerFactory.getLogger(MyRunner.class);
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
