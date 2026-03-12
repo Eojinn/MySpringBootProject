@@ -5,12 +5,12 @@ import lombok.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "book")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
 public class Book {
 
     @Id
@@ -26,7 +26,7 @@ public class Book {
     @Column(unique = true, nullable = false)
     private String isbn;
 
-    private LocalDate publishDate;
-
     private Integer price;
+
+    private LocalDate publishDate;
 }

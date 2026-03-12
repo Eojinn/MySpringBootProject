@@ -1,10 +1,12 @@
 package com.basic.myspringboot.repository;
 
-import com.basic.myspringboot.entity.Book; // 중요: java.awt.print.Book이 아님을 확인하세요!
-import org.junit.jupiter.api.DisplayName;
+import com.basic.myspringboot.entity.Book;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,94 +15,106 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-class BookRepositoryTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // 실제 DB 설정을 사용하거나
+// 또는 properties 파일에 ddl-auto 설정을 명시해야 함
+@Rollback(false)
+public class BookRepositoryTest {
 
     @Autowired
     private BookRepository bookRepository;
 
-    @Test
-    @DisplayName("도서 등록 테스트")
-    void testCreateBook() {
-        // Given: 이미지의 첫 번째 데이터 활용
-        Book book = Book.builder()
+    // 테스트 실행 전, 이미지에 있는 데이터를 DB에 미리 세팅
+    @BeforeEach
+    void setUp() {
+        Book book1 = Book.builder()
                 .title("스프링 부트 입문")
                 .author("홍길동")
                 .isbn("9788956746425")
-                .publishDate(LocalDate.of(2025, 5, 7))
                 .price(30000)
+                .publishDate(LocalDate.of(2025, 5, 7))
                 .build();
 
-        // When
-        Book savedBook = bookRepository.save(book);
-
-        // Then
-        assertThat(savedBook.getId()).isNotNull();
-        assertThat(savedBook.getTitle()).isEqualTo("스프링 부트 입문");
-    }
-
-    @Test
-    @DisplayName("ISBN으로 도서 조회 테스트")
-    void testFindByIsbn() {
-        // Given: 이미지의 두 번째 데이터 등록
-        String targetIsbn = "9788956746432";
-        bookRepository.save(Book.builder()
+        Book book2 = Book.builder()
                 .title("JPA 프로그래밍")
                 .author("박둘리")
-                .isbn(targetIsbn)
-                .publishDate(LocalDate.of(2025, 4, 30))
+                .isbn("9788956746432")
                 .price(35000)
-                .build());
+                .publishDate(LocalDate.of(2025, 4, 30))
+                .build();
 
-        // When
+        bookRepository.save(book1);
+        bookRepository.save(book2);
+    }
+
+    @Test
+    public void testCreateBook() {
+        // given
+        Book newBook = Book.builder()
+                .title("모던 자바 인 액션")
+                .author("라울")
+                .isbn("9791162242025")
+                .price(34000)
+                .publishDate(LocalDate.of(2019, 8, 1))
+                .build();
+
+        // when
+        Book savedBook = bookRepository.save(newBook);
+
+        // then
+        assertThat(savedBook.getId()).isNotNull();
+        assertThat(savedBook.getTitle()).isEqualTo("모던 자바 인 액션");
+    }
+
+    @Test
+    public void testFindByIsbn() {
+        // given
+        String targetIsbn = "9788956746425"; // 스프링 부트 입문의 ISBN
+
+        // when
         Optional<Book> foundBook = bookRepository.findByIsbn(targetIsbn);
 
-        // Then
+        // then
         assertThat(foundBook).isPresent();
-        assertThat(foundBook.get().getTitle()).isEqualTo("JPA 프로그래밍");
+        assertThat(foundBook.get().getTitle()).isEqualTo("스프링 부트 입문");
+        assertThat(foundBook.get().getAuthor()).isEqualTo("홍길동");
     }
 
     @Test
-    @DisplayName("저자명으로 도서 목록 조회 테스트")
-    void testFindByAuthor() {
-        // Given
-        String authorName = "홍길동";
-        bookRepository.save(Book.builder().title("스프링 부트 입문").author(authorName).isbn("9788956746425").build());
+    public void testFindByAuthor() {
+        // given
+        String targetAuthor = "박둘리";
 
-        // When
-        List<Book> books = bookRepository.findByAuthor(authorName);
+        // when
+        List<Book> foundBooks = bookRepository.findByAuthor(targetAuthor);
 
-        // Then
-        assertThat(books).isNotEmpty();
-        assertThat(books.get(0).getAuthor()).isEqualTo(authorName);
+        // then
+        assertThat(foundBooks).isNotEmpty();
+        assertThat(foundBooks.get(0).getTitle()).isEqualTo("JPA 프로그래밍");
     }
 
     @Test
-    @DisplayName("도서 정보 수정 테스트")
-    void testUpdateBook() {
-        // Given
-        Book book = bookRepository.save(Book.builder().title("기존 제목").author("작가").isbn("0000").price(1000).build());
+    public void testUpdateBook() {
+        // given (이미 저장된 책을 가져옴)
+        Book book = bookRepository.findByIsbn("9788956746425").orElseThrow();
 
-        // When
-        book.setTitle("수정된 제목");
-        book.setPrice(50000);
+        // when (가격 인상 후 저장)
+        book.setPrice(32000);
         Book updatedBook = bookRepository.save(book);
 
-        // Then
-        assertThat(updatedBook.getTitle()).isEqualTo("수정된 제목");
-        assertThat(updatedBook.getPrice()).isEqualTo(50000);
+        // then
+        assertThat(updatedBook.getPrice()).isEqualTo(32000);
     }
 
     @Test
-    @DisplayName("도서 삭제 테스트")
-    void testDeleteBook() {
-        // Given
-        Book book = bookRepository.save(Book.builder().title("삭제할 책").author("작가").isbn("9999").build());
+    public void testDeleteBook() {
+        // given
+        Book book = bookRepository.findByIsbn("9788956746432").orElseThrow(); // JPA 프로그래밍
 
-        // When
+        // when
         bookRepository.delete(book);
-        Optional<Book> deletedBook = bookRepository.findById(book.getId());
 
-        // Then
-        assertThat(deletedBook).isEmpty();
+        // then
+        Optional<Book> deletedBook = bookRepository.findByIsbn("9788956746432");
+        assertThat(deletedBook).isEmpty(); // 삭제되었으므로 비어있어야 함
     }
 }
