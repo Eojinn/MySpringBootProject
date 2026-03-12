@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
 <body>
+<h2>User List</h2>
 <table>
     <tr>
         <th>Name</th>
@@ -14,5 +15,8 @@
         <td th:text="${#temporals.format(user.createdAt,'yyyy-MM-dd hh:mm E a')}"></td>
     </tr>
 </table>
+<p>
+    <a href="/signup">Insert</a>
+</p>
 </body>
 </html>
