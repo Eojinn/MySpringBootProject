@@ -41,7 +41,7 @@ public class UserController {
 //    }
     //등록 페이지를 Load하는 메서드
     @GetMapping("/signup")
-    public String showSignUpForm(@ModelAttribute("user") User user) {
+    public String showSignUpForm(@ModelAttribute("userForm") User user) {
         return "add-user";
     }
 }
