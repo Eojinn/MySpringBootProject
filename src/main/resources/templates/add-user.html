@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
 <body>
+<h2>User Form</h2>
 <form action="#" th:action="@{/adduser}" th:object="${userForm}" method="post">
     <label for="name">Name</label>
     <input type="text" th:field="*{name}" id="name">
