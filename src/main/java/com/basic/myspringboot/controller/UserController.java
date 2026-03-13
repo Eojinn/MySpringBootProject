@@ -66,13 +66,13 @@ public class UserController {
     public String showUpdateForm(@PathVariable("id") long id, Model model) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        model.addAttribute("user", user);
+        model.addAttribute("userForm", user);
         return "update-user";
     }
 
     @PostMapping("/update/{id}")
     public String updateUser(@PathVariable("id") long id,
-                             @Valid @ModelAttribute("user") User user,
+                             @Valid @ModelAttribute("userForm") User user,
                              BindingResult result) {
         if (result.hasErrors()) {
             user.setId(id);
