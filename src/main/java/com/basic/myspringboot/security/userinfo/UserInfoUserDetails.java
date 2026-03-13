@@ -30,6 +30,11 @@ public class UserInfoUserDetails implements UserDetails {
         return authorities;
     }
 
+    /*
+        getUsername과 getPassword 메서드는
+        AuthenticationManager가 인증처리를 할때 호출된다.
+     */
+
     @Override
     public String getPassword() {
         return password;
