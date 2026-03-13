@@ -8,6 +8,7 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -97,6 +98,8 @@ public class DefaultExceptionAdvice {
             return HttpStatus.BAD_REQUEST; // 400
 //        } else if (e instanceof NoResourceFoundException) {
 //            return HttpStatus.NOT_FOUND; // 404
+//        } else if (e instanceof BadCredentialsException) {
+//            return HttpStatus.UNAUTHORIZED; // 401
         } else if (e instanceof AccessDeniedException) {
             return HttpStatus.FORBIDDEN; // 403
         }
