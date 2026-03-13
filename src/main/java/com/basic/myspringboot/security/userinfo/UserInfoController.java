@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/userinfos")
+@RequestMapping("/api/userinfos")
 public class UserInfoController {
     @Autowired
     private UserInfoUserDetailsService service;
