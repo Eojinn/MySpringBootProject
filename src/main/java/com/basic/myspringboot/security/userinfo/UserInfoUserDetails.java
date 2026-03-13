@@ -20,7 +20,6 @@ public class UserInfoUserDetails implements UserDetails {
         this.userInfo = userInfo;
         this.email=userInfo.getEmail();
         this.password=userInfo.getPassword();
-        //roles : ROLE_ADMIN, ROLE_USER
         this.authorities= Arrays.stream(userInfo.getRoles().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
@@ -30,11 +29,6 @@ public class UserInfoUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
-
-    /*
-        getUsername과 getPassword 메서드는
-        AuthenticationManager가 인증처리를 할때 호출된다.
-     */
 
     @Override
     public String getPassword() {
