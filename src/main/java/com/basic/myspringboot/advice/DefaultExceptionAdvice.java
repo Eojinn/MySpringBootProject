@@ -9,8 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -42,6 +44,22 @@ public class DefaultExceptionAdvice {
     /*
         Spring6 버전에 추가된 ProblemDetail 객체에 에러정보를 담아서 리턴하는 방법
      */
+
+    // @Valid 검증 실패 시 발생하는 예외 처리 로직 추가
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException e) {
+        Map<String, Object> result = new HashMap<>();
+
+        // 발생한 에러 중 첫 번째 에러 메시지를 가져옵니다.
+        FieldError fieldError = e.getBindingResult().getFieldError();
+        String errorMessage = fieldError != null ? fieldError.getDefaultMessage() : "입력값 검증에 실패했습니다.";
+
+        result.put("message", errorMessage);
+        result.put("httpStatus", HttpStatus.BAD_REQUEST.value());
+
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(BusinessException.class)
     protected ProblemDetail handleException(BusinessException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(e.getHttpStatus());
