@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
-
     // ISBN으로 도서 단건 조회
     Optional<Book> findByIsbn(String isbn);
 

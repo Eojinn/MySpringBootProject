@@ -30,7 +30,6 @@ import java.util.Map;
 @RestControllerAdvice
 @Slf4j
 public class DefaultExceptionAdvice {
-
 //    @ExceptionHandler(BusinessException.class)
 //    public ResponseEntity<ErrorObject> handleResourceNotFoundException(BusinessException ex) {
 //        ErrorObject errorObject = new ErrorObject();

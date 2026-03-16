@@ -14,7 +14,6 @@ import java.util.List;
 @RequestMapping("/api/book")
 @RequiredArgsConstructor // final 필드에 대한 생성자를 자동 생성하여 의존성을 주입합니다.
 public class BookRestController {
-
     private final BookService bookService;
 
     // 1. 새 도서 등록 (@Valid 적용)

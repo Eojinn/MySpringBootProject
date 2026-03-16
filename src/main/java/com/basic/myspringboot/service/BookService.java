@@ -20,6 +20,7 @@ public class BookService {
     private final BookRepository bookRepository;
 
     @Transactional // 데이터 변경이 일어나는 메서드에 적용
+
     public BookDTO.BookResponse createBook(BookDTO.BookCreateRequest request) {
         if (bookRepository.findByIsbn(request.getIsbn()).isPresent()) {
             throw new BusinessException("이미 존재하는 ISBN입니다.", HttpStatus.BAD_REQUEST);

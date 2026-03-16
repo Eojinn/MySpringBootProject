@@ -59,7 +59,7 @@ public class SecurityConfig {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
                     // /api/users/welcome 경로는 인증없이 접근 가능
-                    auth.requestMatchers("/api/users/welcome","/userinfos/new").permitAll()
+                    auth.requestMatchers("/api/users/welcome","/userinfos/new","/api/book/**").permitAll()
                             // /api/users/** 인증 후에 접근 가능
                             .requestMatchers("/api/users/**").permitAll();
                     //.authenticated();
