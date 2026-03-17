@@ -1,17 +1,18 @@
 package com.basic.myspringboot.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "book")
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Book {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,10 +23,12 @@ public class Book {
     @Column(nullable = false)
     private String author;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     private String isbn;
 
+    @Column(nullable = false)
     private Integer price;
 
+    @Column(nullable = false)
     private LocalDate publishDate;
 }
